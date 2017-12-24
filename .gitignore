@@ -43,3 +43,6 @@ locm3.sublime-workspace
 
 # cscope databases
 cscope.out
+
+# meson build stuff
+meson_bld

@@ -1,0 +1,44 @@
+[binaries]
+cpp   = '/usr/local/bin/arm-none-eabi-g++'
+c     = '/usr/local/bin/arm-none-eabi-gcc'
+ar    = '/opt/gcc-arm-none-eabi-5_2-2015q4/bin/arm-none-eabi-ar'
+strip = '/opt/gcc-arm-none-eabi-5_2-2015q4/bin/arm-none-eabi-strip'
+
+has_function_printf = true
+
+# this next is not needed if an exewrapper provided, meson works it out via compiler directly!  see https://github.com/mesonbuild/meson/wiki/Cross%20compilation
+# exe_wrapper; did not compile meson's sanity check app with our
+# linker settings as no runtime etc.
+
+[properties]
+sizeof_int = 4
+sizeof_wchar_t = 4
+sizeof_void* = 4
+alignment_char = 1
+alignment_void* = 4
+alignment_double = 4
+
+cpp_args = [
+         '-mcpu=cortex-m3', '-mthumb', '-mfloat-abi=soft',
+         '-fno-exceptions', '-fno-rtti', '-fno-use-cxa-atexit',
+         '-fno-threadsafe-statics', '-fabi-version=0',
+         ]
+
+c_args = [
+       '-mcpu=cortex-m3', '-mthumb', '-mfloat-abi=soft',
+       ]
+
+cpp_link_args = [
+              '--specs=nosys.specs',
+              '-nostartfiles',
+              '-Tbaremetal.ld',
+              '-L/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/lib/armv7e-m/softfp',
+              ]
+
+
+
+[host_machine]
+system = 'bare-metal'
+cpu_family = 'arm'
+cpu = 'cm3'
+endian = 'little'
